@@ -1,0 +1,9 @@
+{% if latest_login_users %}
+    <ul>
+        {% for participant in latest_login_users %}
+            <li><a href="{% url 'main' participant.id %}">{{participant.username_f}}</a> </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p> Sem participantes </p>
+{% endif %}
