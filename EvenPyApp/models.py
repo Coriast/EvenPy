@@ -7,20 +7,22 @@ class BasicModel(models.Model):
 
     def __str__(self):
         return self.name_f
+        
+    class Meta:
+        abstract = True
 
 
 # All users who have a login
-class AbstractUser(BasicModel):
-    username_f = models.CharField(max_length=100)
-    email_f = models.CharField(max_length=100)
+class User(BasicModel):
+    email_f = models.CharField(max_length=100, unique=True)
     password_f = models.CharField(max_length=20)
 
     def __str__(self):
-        return self.username_f
+        return self.name_f
 
 
 # When joined in an event the user becomes a participant in that event
-class Participant(AbstractUser):
+class Participant(User):
     pass
 
 
@@ -54,7 +56,9 @@ class Activity(BasicModel):
     instructor_f = models.ForeignKey(
         Instructor, related_name="instructor", on_delete=models.CASCADE
     )
-    event_f = models.ForeignKey(Event, related_name="event", on_delete=models.CASCADE)
+    event_f = models.ForeignKey(
+        Event, related_name="event", on_delete=models.CASCADE
+    )
     participants_f = models.ManyToManyField(
         Participant, related_name="participant", blank=True
     )
