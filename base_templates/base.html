@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   {% include 'partials/_head.html' %}
+</head>
+<body class="g-sidenav-show  bg-gray-100">
+    <div class="d-flex flex-row">
+        {% include 'partials/_sidenav.html' %}
+      
+      <div class="d-flex flex-row" style="width: -moz-available">
+          {% block content%} {% endblock content %}
+      </div>
+</body>
+</html>

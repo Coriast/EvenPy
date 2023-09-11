@@ -1,0 +1,31 @@
+.align-card {
+    margin-top: 2rem;
+}
+
+.title {
+    font-size: 4rem;
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.menu-background {
+    background-color: #000000c9;
+}
+
+.logo-menu {
+    width: 100%;
+    height: 6rem;
+}
+.font-menu {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+}
+.font-home {
+    margin-top: 10rem;
+    font-size: 5rem;
+    font-weight: 900;
+    color: #000;
+    text-align: center;
+}
