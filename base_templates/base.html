@@ -7,8 +7,12 @@
     <div class="d-flex flex-row">
         {% include 'partials/_sidenav.html' %}
       
-      <div class="d-flex flex-row" style="width: -moz-available">
-          {% block content%} {% endblock content %}
-      </div>
+    <div class="d-flex flex-row" style="width: -moz-available">
+        <div class="messages">
+            {% include 'partials/_messages.html'%}
+        </div>
+
+        {% block content%} {% endblock content %}
+    </div>
 </body>
 </html>

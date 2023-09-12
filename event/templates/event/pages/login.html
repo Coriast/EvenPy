@@ -1,0 +1,67 @@
+{% extends 'event/base-auth.html' %}
+{% load static %}
+
+{% block content %}
+<section class="h-100 align-card">
+    <figure class="text-center">
+        <img src="{% static 'assets/img/logo.png' %}" alt="logo do site">
+    </figure>
+    <div class="container h-100">
+        <div class="row justify-content-sm-center h-100">
+            <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+                <div class="card shadow-lg">
+                    <div class="card-body p-5">
+                        <form action="{% url 'login' %}" method="POST" class="needs-validation" novalidate=""
+                            autocomplete="off">
+                            {% csrf_token %}
+                            {% include 'partials/_messages.html'%}
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="email"><b>Usuário:</b></label>
+                                <input id="email" type="email" class="form-control" name="username" id="usernameField"
+                                    value="" required autofocus>
+                            </div>
+                            <div class="mb-1">
+                                <div class="mb-2 w-100">
+                                    <label class="text-muted" for="password"><b>Senha:</b></label>
+                                </div>
+                                <div class="input-group">
+                                    <input id="password" type="password" name="password" id="senha" class="form-control"
+                                        name="password" required>
+                                    <button class="btn btn-outline-secondary" type="button" id="showPassword">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                            <path
+                                                d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                                            <path
+                                                d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback">
+                                Usuário ou senha inválidos
+                            </div>
+                            <div class="d-flex flex-row-reverse mb-3">
+                                <a href="#" class="float-end">
+                                    Esqueceu a senha?
+                                </a>
+                            </div>
+                            <div class="d-grid gap-2 col-6 mx-auto">
+                                <button type="submit" class="btn btn-dark">
+                                    Entrar
+                                </button>
+                              </div>
+                        </form>
+                    </div>
+                    <div class="mt-3 card-footer py-3 border-0">
+                        <div class="text-center mx-auto">
+                            Não tem conta? <a href="{% url 'register' %}" class="text-dark">Registre-se</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

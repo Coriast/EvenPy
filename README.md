@@ -1,1 +1,1 @@
-# EvenPy
+# core

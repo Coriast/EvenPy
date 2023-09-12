@@ -86,7 +86,10 @@ coverage.xml
 
 # Jupyter Notebook 
 .ipynb_checkpoints 
-
+.vscode/
+.vscode
+vscode/*
+db.sqlite3
 # pyenv 
 .python-version 
 

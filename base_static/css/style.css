@@ -29,3 +29,9 @@
     color: #000;
     text-align: center;
 }
+
+.messages {
+    position: fixed;
+    margin-left: 44rem;
+    margin-top: 1rem;
+}

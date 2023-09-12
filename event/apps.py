@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class EvenpyappConfig(AppConfig):
+class coreConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'EvenPyApp'
+    name = 'event'

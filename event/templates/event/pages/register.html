@@ -1,4 +1,4 @@
-{% extends 'EvenPyApp/base-auth.html'%}
+{% extends 'event/base-auth.html'%}
 {% load static %}
 
 {% block content %}
@@ -11,9 +11,10 @@
             <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-7 col-sm-9">
                 <div class="card shadow-lg">
                     <div class="card-body p-5">
-                        <form action="{% url 'login' %}" method="POST" class="needs-validation" novalidate=""
+                        <form action="{% url 'register' %}" method="POST" class="needs-validation" novalidate=""
                             autocomplete="off">
                             {% csrf_token %}
+                            {% include 'partials/_messages.html'%}
                             <div class="mb-3">
                                 <label class="mb-2 text-muted" for="name"><b>Nome:</b></label>
                                 <input type="text" class="form-control" name="name" 
@@ -39,10 +40,10 @@
                             </div>
                             <div class="mb-1">
                                 <div class="mb-2 w-100">
-                                    <label class="text-muted" for="password"><b>Confirmar Senha:</b></label>
+                                    <label class="text-muted" for="confirm_password"><b>Confirmar Senha:</b></label>
                                 </div>
                                 <div class="input-group">
-                                    <input type="text" name="password" class="form-control" required>
+                                    <input type="text" name="confirm_password" class="form-control" required>
                                 </div>
                             </div>
                             <div class="row mt-4">
