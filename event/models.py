@@ -2,17 +2,16 @@ from django.db import models
 from datetime import date
 
 
-class AbstractUser(models.Model):
+class User(models.Model):
     username = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=20)
-
-    def Meta(self):
-        abstract = True
+    def __str__(self) -> str:
+        return self.username
 
 
 # When joined in an event the user becomes a participant in that event
-class Participant(AbstractUser):
+class Participant(User):
     pass
 
 
