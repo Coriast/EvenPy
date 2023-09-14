@@ -9,18 +9,17 @@ logged_user: User
 class EventView(View):
     template_name = "event/pages/event.html"
 
-    def get(self, request, event_id):
-        return render(request, self.template_name)
+    def get(self, request):
+        events = Event.objects.all()
+
+        context = { "events": events }
+        return render(request, self.template_name, context)
 
 class HomeView(View):
     template_name = "event/pages/index.html"
 
     def get(self, request):
-        print(logged_user.username)
-        events = Event.objects.all()
-
-        context = { "events": events }
-        return render(request, self.template_name, context)
+        return render(request, self.template_name)
 
 
 class LoginView(View):

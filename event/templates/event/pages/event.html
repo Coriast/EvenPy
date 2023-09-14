@@ -1,1 +1,19 @@
-<h1> PAGINA DE EVENTO </h1>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div>
+        {% for event in events %}
+        <div class="card" style="width: 22rem;">
+            <img src="{% static 'assets/img/logo1.png' %}" class="card-img-top" alt="logo do evento">
+            <div class="card-body">
+                <h5 class="card-title">{{ event.name }}</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <div class="text-center">
+                    <a href="#" class="btn btn-dark">Ver mais</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
