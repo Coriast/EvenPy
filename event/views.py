@@ -1,10 +1,54 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from event.utils import validate_user
-from .models import User, Event
+from event.models import Event, Organizer
+from django.contrib.auth.models import User
+from event.form import EventForm
 from django.views import View
 
-logged_user: User
+
+class RegisterEventView(View):
+    template_name = "event/pages/register_event.html"
+
+    def get(self, request):
+        form = EventForm()
+        return render(request, self.template_name, {"form": form})
+
+    def post(self, request):
+        try:
+            name = request.POST.get("name")
+            description = request.POST.get("description")
+            start_date = request.POST.get("start_date")
+            end_date = request.POST.get("end_date")
+            image = request.FILES.get("image")
+            organizer_id = request.POST.get("organizer")
+
+            organizer = Organizer.objects.get(id=organizer_id)
+
+            if (
+                not name
+                or not description
+                or not start_date
+                or not end_date
+                or not image
+            ):
+                messages.error(request, "Por favor, preencha todos os campos!")
+                return redirect("register_event")
+
+            event = Event(
+                name=name,
+                description=description,
+                start_date=start_date,
+                end_date=end_date,
+                image=image,
+                organizer=organizer,
+            )
+            event.save()
+            messages.success(request, "Evento cadastrado com sucesso!")
+            return redirect("home")
+        except Exception as e:
+            return print(e)
+
 
 class EventView(View):
     template_name = "event/pages/event.html"
@@ -12,8 +56,9 @@ class EventView(View):
     def get(self, request):
         events = Event.objects.all()
 
-        context = { "events": events }
+        context = {"events": events}
         return render(request, self.template_name, context)
+
 
 class HomeView(View):
     template_name = "event/pages/index.html"
@@ -34,22 +79,24 @@ class LoginView(View):
             password = request.POST.get("password")
 
             user = validate_user(username=username, password=password)
-            
+
             if not user[0]:
                 messages.error(request, user[1])
-                return redirect('login')
+                return redirect("login")
 
-            global logged_user
-            logged_user = user[1]
+            auth.login(request, user[1])
             messages.success(request, "Login efetuado com sucesso!")
             return redirect("home")
         except Exception as e:
             return print(e)
 
+
 class LogoutView(View):
     def post(self, request):
+        auth.logout(request)
         messages.success(request, "Logout efetuado com sucesso!")
         return redirect("login")
+
 
 class RegisterView(View):
     template_name = "event/pages/register.html"
@@ -59,6 +106,8 @@ class RegisterView(View):
 
     def post(self, request):
         try:
+            organizer = request.POST.get("organizer")
+
             username = request.POST.get("username")
             password = request.POST.get("password")
             confirm_password = request.POST.get("confirm_password")
@@ -72,7 +121,11 @@ class RegisterView(View):
                 messages.error(request, "As senhas não coincidem!")
                 return redirect("register")
 
-            user = User(username=username, password=password, email=email)
+            if organizer:
+                user = Organizer(username=username, password=password, email=email)
+            else:
+                user = User(username=username, password=password, email=email)
+
             user.save()
             messages.success(request, "Usuário cadastrado com sucesso!")
             return redirect("login")

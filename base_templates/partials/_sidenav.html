@@ -20,6 +20,14 @@
                </span>
             </a>
          </li>
+         <li class="nav-item w-100 mt-3" onclick="window.location.href='{% url "register_event" %}'">
+            <a class="nav-link text-white" href="{% url 'register_event' %}">
+               <i class="fa-regular fa-plus fa-2xl" style="color: #9c142b;"></i>
+               <span class="nav-link-text ms-3 font-menu" href="{% url 'register_event' %}">
+                  Evento
+               </span>
+            </a>
+         </li>
       </ul>
    </div>
    <!-- user -->
@@ -28,7 +36,6 @@
          <button class="btn border-none dropdown-toggle text-white" type="button" id="triggerId" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa-regular fa-user fa-2xl" style="color: #9c142b;"></i>
             <span class="ms-3 d-none font-menu d-sm-inline">
-               Usuário 
                {{ user.get_username }}
             </span>
          </button>

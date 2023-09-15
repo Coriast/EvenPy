@@ -1,42 +1,47 @@
 from django.db import models
-from datetime import date
+from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
+
+from event.manager import CustomUserManager
 
 
-class User(models.Model):
-    username = models.CharField(max_length=100)
-    email = models.CharField(max_length=100)
-    password = models.CharField(max_length=20)
-    def __str__(self) -> str:
+class Participant(AbstractUser):
+    username = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(_("email address"), unique=True)
+
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
+
+    def __str__(self):
         return self.username
-
-
-# When joined in an event the user becomes a participant in that event
-class Participant(User):
-    pass
 
 
 # The Instructor is a participant responsible for some activitiy
 class Instructor(Participant):
-    pass
+    is_instructor = models.BooleanField(default=False)
 
 
 # The organizer is the participant who created the event and when interacting with
 # chosen event he will see it from the Organizer's perspective
 class Organizer(Participant):
-    pass
+    is_organizer = models.BooleanField(default=False)
 
 
 class Location(models.Model):
     name = models.CharField(max_length=100)
+
     def __str__(self) -> str:
         return self.name
 
 
-
 class Event(models.Model):
     name = models.CharField(max_length=100)
+    description = models.TextField()
+    image = models.ImageField(upload_to="images/")
     organizer = models.ForeignKey(Organizer, on_delete=models.CASCADE)
-    start_date = models.DateTimeField()
+    start_date = models.DateField()
     end_date = models.DateTimeField()
 
     def __str__(self) -> str:
@@ -45,8 +50,8 @@ class Event(models.Model):
 
 class Activity(models.Model):
     name = models.CharField(max_length=100)
-    start_hour = models.DateTimeField()
-    end_hour = models.DateTimeField()
+    start_hour = models.DateField()
+    end_hour = models.DateField()
     location = models.ForeignKey(
         Location, related_name="location", on_delete=models.CASCADE
     )

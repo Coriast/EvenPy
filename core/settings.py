@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 from django.contrib import messages
 
@@ -28,6 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = "event.Participant"
 
 # Application definition
 
@@ -38,8 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "event",
     "fontawesomefree",
+    "event",
 ]
 
 MIDDLEWARE = [
@@ -125,6 +127,9 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "base_static",
 ]
+
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
