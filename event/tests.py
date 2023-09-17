@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from django.urls import reverse
-from event.models import Event, Conductor
+from event.models import Event, Conductor, Participant, Creator
 
 
 class TestLogin(TestCase):
@@ -57,3 +57,27 @@ class TestConductor(TestCase):
     # def teste_throw_create_organizer(self):
     #     person = Conductor.objects.exists()
     #     self.assertIsNotNone(person)
+
+
+class TestParticipant(TestCase):
+    def setUp(self) -> None:
+        self.client = Client()
+        Participant.objects.create(
+            username="jose", email="jose@email.com", password="123456"
+        )
+
+    def teste_create_participant(self):
+        person = Participant.objects.get(username="jose")
+        self.assertIsInstance(person, Participant)
+
+
+class TestCreator(TestCase):
+    def setUp(self) -> None:
+        self.client = Client()
+        Creator.objects.create(
+            username="jose", email="jose@email.com", password="123456"
+        )
+
+    def teste_create_creator(self):
+        person = Creator.objects.get(username="jose")
+        self.assertIsInstance(person, Creator)
