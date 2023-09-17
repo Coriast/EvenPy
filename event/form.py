@@ -1,6 +1,6 @@
 # forms.py
 from django import forms
-from event.models import Event, Organizer
+from event.models import Event, Conductor
 
 
 class EventForm(forms.ModelForm):
@@ -29,11 +29,11 @@ class EventForm(forms.ModelForm):
         widget=forms.DateInput(attrs={"class": "form-control", "type": "date"}),
     )
 
-    organizer = forms.ModelChoiceField((Organizer.objects.all()), label="Organizador")
+    conductor = forms.ModelChoiceField((Conductor.objects.all()), label="Conductor")
 
     class Meta:
         model = Event
-        fields = ["name", "description", "image", "start_date", "end_date", "organizer"]
+        fields = ["name", "description", "image", "start_date", "end_date", "conductor"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

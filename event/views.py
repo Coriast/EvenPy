@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from event.utils import validate_user
-from event.models import Event, Organizer
-from django.contrib.auth.models import User
+from event.models import Event, Conductor, Creator, Participant
 from event.form import EventForm
 from django.views import View
 
@@ -21,9 +20,9 @@ class RegisterEventView(View):
             start_date = request.POST.get("start_date")
             end_date = request.POST.get("end_date")
             image = request.FILES.get("image")
-            organizer_id = request.POST.get("organizer")
+            conductor_id = request.POST.get("conductor")
 
-            organizer = Organizer.objects.get(id=organizer_id)
+            conductor = Conductor.objects.get(id=conductor_id)
 
             if (
                 not name
@@ -41,7 +40,7 @@ class RegisterEventView(View):
                 start_date=start_date,
                 end_date=end_date,
                 image=image,
-                organizer=organizer,
+                conductor=conductor,
             )
             event.save()
             messages.success(request, "Evento cadastrado com sucesso!")
@@ -106,7 +105,7 @@ class RegisterView(View):
 
     def post(self, request):
         try:
-            organizer = request.POST.get("organizer")
+            type_user = request.POST.get("type_user")
 
             username = request.POST.get("username")
             password = request.POST.get("password")
@@ -121,10 +120,12 @@ class RegisterView(View):
                 messages.error(request, "As senhas não coincidem!")
                 return redirect("register")
 
-            if organizer:
-                user = Organizer(username=username, password=password, email=email)
+            if type_user == "conductor":
+                user = Conductor(username=username, password=password, email=email)
+            elif type_user == "creator":
+                user = Creator(username=username, password=password, email=email)
             else:
-                user = User(username=username, password=password, email=email)
+                user = Participant(username=username, password=password, email=email)
 
             user.save()
             messages.success(request, "Usuário cadastrado com sucesso!")
