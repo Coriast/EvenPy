@@ -1,4 +1,5 @@
-from event.models import CustomUser
+# from event.models import CustomUser
+from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 
 def validate_user(username: str, password: str) -> tuple:
@@ -6,7 +7,7 @@ def validate_user(username: str, password: str) -> tuple:
         if (not username) or (not password):
             return False, "Por favor preencha todos os campos!"
         
-        user = get_object_or_404(CustomUser, username=username) 
+        user = get_object_or_404(User, username=username) 
 
         if not user:
             return False, "Usuário ou senha não conferem, tente novamente"

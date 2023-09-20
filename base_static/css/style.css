@@ -1,3 +1,7 @@
+:root{
+    --side-nav-color: #000000c9;
+}
+
 .align-card {
     margin-top: 2rem;
 }
@@ -9,9 +13,7 @@
     margin-bottom: 1rem;
 }
 
-.menu-background {
-    background-color: #000000c9;
-}
+
 
 .logo-menu {
     width: 100%;
@@ -38,4 +40,31 @@
 
 .img-card {
     height: 14rem;
+}
+
+.side-nav-layout {
+    background-color: var(--side-nav-color);
+    min-height: 100vh;
+    min-width: 20vw;
+}
+
+.user-nav {
+    position: fixed;
+    bottom: 3rem;
+    text-align: center;
+}
+
+@media screen and (min-width: 2000px) {
+    .logo-menu {
+        height: 8rem;
+    }
+    .font-menu {
+        font-size: 2.25rem;
+    }
+}
+
+@media screen and (max-width: 1440px) {
+    .font-menu {
+        font-size: 1rem;
+    }
 }

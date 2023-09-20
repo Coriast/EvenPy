@@ -27,11 +27,22 @@ SECRET_KEY = "django-insecure-in9vcc+foh8x3%lbxt-tig%#pd&m@(_^*^^mg*cmnrwush_ah8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+CORS_ORIGIN_ALLOW_ALL = True
 
-AUTH_USER_MODEL = "event.Participant"
+ALLOWED_HOSTS = [
+    "*",
+    "81ee-2804-29b8-5004-4004-5e4f-21b0-be0-b9.ngrok-free.app"
+]
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:4200', 
+    'http://127.0.0.1:4200',
+    "https://81ee-2804-29b8-5004-4004-5e4f-21b0-be0-b9.ngrok-free.app"
+]
 
-# Application definition
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "https://81ee-2804-29b8-5004-4004-5e4f-21b0-be0-b9.ngrok-free.app"
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -40,11 +51,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
     "fontawesomefree",
     "event",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",

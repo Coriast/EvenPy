@@ -1,9 +1,46 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from event.utils import validate_user
-from event.models import Event, Conductor, Creator, Participant
-from event.form import EventForm
+from event.models import Event, Conductor, Participant
+from event.form import EventForm, ConductorForm
 from django.views import View
+
+
+class RegisterConductorView(View):
+    template_name = "event/pages/register_conductor.html"
+
+    def get(self, request):
+        form = ConductorForm()
+        return render(request, self.template_name, {"form": form})
+
+    def post(self, request):
+        try:
+            username = request.POST.get("username")
+            password = request.POST.get("password")
+            confirm_password = request.POST.get("confirm_password")
+            email = request.POST.get("email")
+            
+            if not username or not password or not email:
+                messages.error(request, "Por favor, preencha todos os campos!")
+                return redirect("register_conductor")
+
+            if not (password == confirm_password):
+                messages.error(request, "As senhas não coincidem!")
+                return redirect("register_conductor")
+            
+            conductor: bool = Conductor.objects.filter(username=username).exists()
+            
+            if not conductor:
+                user = Conductor(username=username, password=password, email=email)
+                user.save()
+                
+                messages.success(request, "Conductor cadastrado com sucesso!")
+            else:
+                messages.error(request, "Conductor já cadastrado!")
+            
+            return redirect("register_conductor")
+        except Exception as e:
+            return print(e)
 
 
 class RegisterEventView(View):
@@ -44,7 +81,7 @@ class RegisterEventView(View):
             )
             event.save()
             messages.success(request, "Evento cadastrado com sucesso!")
-            return redirect("home")
+            return redirect("event")
         except Exception as e:
             return print(e)
 
@@ -105,8 +142,6 @@ class RegisterView(View):
 
     def post(self, request):
         try:
-            type_user = request.POST.get("type_user")
-
             username = request.POST.get("username")
             password = request.POST.get("password")
             confirm_password = request.POST.get("confirm_password")
@@ -120,14 +155,9 @@ class RegisterView(View):
                 messages.error(request, "As senhas não coincidem!")
                 return redirect("register")
 
-            if type_user == "conductor":
-                user = Conductor(username=username, password=password, email=email)
-            elif type_user == "creator":
-                user = Creator(username=username, password=password, email=email)
-            else:
-                user = Participant(username=username, password=password, email=email)
-
+            user = Participant(username=username, password=password, email=email)
             user.save()
+
             messages.success(request, "Usuário cadastrado com sucesso!")
             return redirect("login")
         except Exception as e:

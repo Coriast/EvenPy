@@ -1,3 +1,4 @@
 Django
 fontawesomefree
 Pillow
+django-cors-headers

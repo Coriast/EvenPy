@@ -1,36 +1,43 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
-from event.manager import CustomUserManager
+# from event.manager import CustomUserManager
 
 
-class CustomUser(AbstractUser):
-    username = models.CharField(max_length=100, unique=True)
-    email = models.EmailField(_("email address"), unique=True)
+# class User(AbstractUser):
+#     username = models.CharField(max_length=100, unique=True)
+#     email = models.EmailField(_("email address"), unique=True)
+#     password = models.CharField(max_length=100)
 
-    USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = []
+#     USERNAME_FIELD = "username"
+#     REQUIRED_FIELDS = []
 
-    objects = CustomUserManager()
+#     objects = CustomUserManager()
 
-    def __str__(self):
-        return self.username
-
-
-# The Creator is a participant responsible for some activitiy
-class Creator(CustomUser):
-    pass
+#     class Meta:
+#         verbose_name = _("user")
+#         verbose_name_plural = _("users")
 
 
-class Participant(CustomUser):
-    pass
+class Creator(User):
+    class Meta:
+        verbose_name = _("creator")
+        verbose_name_plural = _("creators")
 
 
-# The organizer is the participant who created the event and when interacting with
-# chosen event he will see it from the Conductor's perspective
-class Conductor(CustomUser):
-    pass
+class Participant(User):
+    class Meta:
+        verbose_name = _("participant")
+        verbose_name_plural = _("participants")
+
+
+class Conductor(User):
+    events = models.ManyToManyField("Event", related_name="events")
+
+    class Meta:
+        verbose_name = _("conductor")
+        verbose_name_plural = _("conductors")
 
 
 class Location(models.Model):
