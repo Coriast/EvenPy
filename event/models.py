@@ -52,7 +52,6 @@ class Event(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     image = models.ImageField(upload_to="images/")
-    conductor = models.ForeignKey(Conductor, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateTimeField()
     closed = models.BooleanField(default=False)

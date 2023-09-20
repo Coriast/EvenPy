@@ -29,11 +29,9 @@ class EventForm(forms.ModelForm):
         widget=forms.DateInput(attrs={"class": "form-control", "type": "date"}),
     )
 
-    conductor = forms.ModelChoiceField((Conductor.objects.all()), label="Conductor")
-
     class Meta:
         model = Event
-        fields = ["name", "description", "image", "start_date", "end_date", "conductor"]
+        fields = ["name", "description", "image", "start_date", "end_date"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
