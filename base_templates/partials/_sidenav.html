@@ -20,6 +20,8 @@
                </span>
             </a>
          </li>
+         
+{% if is_creator == True %}
          <li class="nav-item w-100 mt-3" onclick="window.location.href='{% url "register_event" %}'">
             <a class="nav-link text-white" href="{% url 'register_event' %}">
                <i class="fa-regular fa-plus fa-2xl" style="color: #9c142b;"></i>
@@ -28,6 +30,8 @@
                </span>
             </a>
          </li>
+{% endif %}
+         
       </ul>
    </div>
    <!-- user -->

@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from event.utils import validate_user
-from event.models import Event, Conductor, Creator, Participant
+from event.models import Event, Conductor, Creator, Participant, CustomUser
 from event.form import EventForm
 from django.views import View
 
+logged_user = None
 
 class RegisterEventView(View):
     template_name = "event/pages/register_event.html"
@@ -63,7 +64,9 @@ class HomeView(View):
     template_name = "event/pages/index.html"
 
     def get(self, request):
-        return render(request, self.template_name)
+        global logged_user
+        is_creator = isinstance(logged_user, Creator)
+        return render(request, self.template_name, {"is_creator":is_creator})
 
 
 class LoginView(View):
@@ -78,13 +81,15 @@ class LoginView(View):
             password = request.POST.get("password")
 
             user = validate_user(username=username, password=password)
-
             if not user[0]:
                 messages.error(request, user[1])
                 return redirect("login")
-
-            auth.login(request, user[1])
-            messages.success(request, "Login efetuado com sucesso!")
+            
+            # auth.login(request, user[1]) -> estava dando erro
+            # messages.success(request, "Login efetuado com sucesso!")
+            
+            global logged_user
+            logged_user = user[1]
             return redirect("home")
         except Exception as e:
             return print(e)
