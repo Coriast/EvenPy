@@ -1,6 +1,6 @@
 # forms.py
 from django import forms
-from event.models import Event, Conductor
+from event.models import Event
 
 
 class EventForm(forms.ModelForm):

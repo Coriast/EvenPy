@@ -57,9 +57,6 @@ class RegisterEventView(View):
             start_date = request.POST.get("start_date")
             end_date = request.POST.get("end_date")
             image = request.FILES.get("image")
-            conductor_id = request.POST.get("conductor")
-
-            conductor = Conductor.objects.get(id=conductor_id)
 
             if (
                 not name
@@ -77,8 +74,8 @@ class RegisterEventView(View):
                 start_date=start_date,
                 end_date=end_date,
                 image=image,
-                conductor=conductor,
             )
+
             event.save()
             messages.success(request, "Evento cadastrado com sucesso!")
             return redirect("event")
@@ -95,6 +92,14 @@ class EventView(View):
         context = {"events": events}
         return render(request, self.template_name, context)
 
+class EventDetailView(View):
+    template_name = "event/pages/event_detail.html"
+
+    def get(self, request, event_id):
+        event = Event.objects.get(pk=event_id)
+        context = {"event": event}
+        return render(request, self.template_name, context)
+    
 
 class HomeView(View):
     template_name = "event/pages/index.html"

@@ -7,6 +7,7 @@ urlpatterns = [
     path("register/", views.RegisterView.as_view(), name="register"),
     path("index/", views.HomeView.as_view(), name="home"),
     path("event/", views.EventView.as_view(), name="event"),
+    path("event/<int:event_id>/", views.EventDetailView.as_view(), name="event_detail"),
     path("add-event/", views.RegisterEventView.as_view(), name="register_event"),
     path("add-conductor/", views.RegisterConductorView.as_view(), name="register_conductor"),
 ]

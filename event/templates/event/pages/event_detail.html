@@ -1,0 +1,73 @@
+
+{% block content %}
+
+<style>
+    .box {
+        width: 80%;
+        background-color: #E6EDF3;
+        border-radius: 15px;
+    }
+
+    .image_box {
+        width: 80%;
+        border-radius: 15px;
+        padding-bottom: 25px;
+    }
+
+    .center {
+        margin: auto;
+    }
+
+    .event_content {
+        padding: 10px;
+    }
+
+    .event_image {
+        border-radius: 15px;
+        width: 100%;
+    }
+    
+    .bg-image {
+        background-image: url("{{ event.image.url }}");
+      
+        filter: blur(10px);
+        transform: scale(1.1);
+      
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .text-sus {
+        text-align: justify;
+        text-justify: inter-word;
+    }
+
+</style>
+
+<div class="bg-image"></div>
+
+<div class="image_box center">
+    <img class="event_image" src="{{ event.image.url }}">
+</div>
+
+<div class="box center">
+    <div class="event_content">
+        
+        <h2> {{ event.name }} </h2>
+
+        <p class="text-sus">
+            {{ event.description }}
+        </p>    
+    </div>    
+</div>
+
+
+{% endblock content %}
