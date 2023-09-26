@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-center mb-5" style="font-weight: bold; color: #a0162d;">Adicione um Condutor de Evento</h1>
+        
+        <form method = "post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            
+            <div class="text-center mt-5">
+                <button type="submit" class="btn btn-dark" style="width: 8rem;">
+                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                    Salvar
+                </button>
+            </div>
+        </form>
+</div>
+{% endblock content %}

@@ -1,43 +1,60 @@
 from django.db import models
-from datetime import date
+from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
+
+# from event.manager import CustomUserManager
 
 
-class User(models.Model):
-    username = models.CharField(max_length=100)
-    email = models.CharField(max_length=100)
-    password = models.CharField(max_length=20)
-    def __str__(self) -> str:
-        return self.username
+# class User(AbstractUser):
+#     username = models.CharField(max_length=100, unique=True)
+#     email = models.EmailField(_("email address"), unique=True)
+#     password = models.CharField(max_length=100)
+
+#     USERNAME_FIELD = "username"
+#     REQUIRED_FIELDS = []
+
+#     objects = CustomUserManager()
+
+#     class Meta:
+#         verbose_name = _("user")
+#         verbose_name_plural = _("users")
 
 
-# When joined in an event the user becomes a participant in that event
+class Creator(User):
+    class Meta:
+        verbose_name = _("creator")
+        verbose_name_plural = _("creators")
+
+
 class Participant(User):
-    pass
+    class Meta:
+        verbose_name = _("participant")
+        verbose_name_plural = _("participants")
 
 
-# The Instructor is a participant responsible for some activitiy
-class Instructor(Participant):
-    pass
+class Conductor(User):
+    events = models.ManyToManyField("Event", related_name="events")
 
-
-# The organizer is the participant who created the event and when interacting with
-# chosen event he will see it from the Organizer's perspective
-class Organizer(Participant):
-    pass
+    class Meta:
+        verbose_name = _("conductor")
+        verbose_name_plural = _("conductors")
 
 
 class Location(models.Model):
     name = models.CharField(max_length=100)
+    busy = models.BooleanField(default=False)
+
     def __str__(self) -> str:
         return self.name
 
 
-
 class Event(models.Model):
     name = models.CharField(max_length=100)
-    organizer = models.ForeignKey(Organizer, on_delete=models.CASCADE)
-    start_date = models.DateTimeField()
+    description = models.TextField()
+    image = models.ImageField(upload_to="images/")
+    start_date = models.DateField()
     end_date = models.DateTimeField()
+    closed = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.name
@@ -45,18 +62,21 @@ class Event(models.Model):
 
 class Activity(models.Model):
     name = models.CharField(max_length=100)
-    start_hour = models.DateTimeField()
-    end_hour = models.DateTimeField()
+    date = models.DateField()
     location = models.ForeignKey(
         Location, related_name="location", on_delete=models.CASCADE
     )
-    instructor = models.ForeignKey(
-        Instructor, related_name="instructor", on_delete=models.CASCADE
+    conductor = models.ForeignKey(
+        Conductor, related_name="conductor", on_delete=models.CASCADE
     )
     event = models.ForeignKey(Event, related_name="event", on_delete=models.CASCADE)
-    participants = models.ManyToManyField(
-        Participant, related_name="participant", blank=True
-    )
+    frequency = models.TextField()
 
     def __str__(self) -> str:
         return self.name
+
+
+class Certificate(models.Model):
+    participant = models.ForeignKey(Participant, on_delete=models.CASCADE)
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)

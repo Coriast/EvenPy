@@ -2,18 +2,22 @@
 {% load static %}
 
 {% block content %}
-    <div>
-        {% for event in events %}
-        <div class="card" style="width: 22rem;">
-            <img src="{% static 'assets/img/logo1.png' %}" class="card-img-top" alt="logo do evento">
-            <div class="card-body">
-                <h5 class="card-title">{{ event.name }}</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <div class="text-center">
-                    <a href="#" class="btn btn-dark">Ver mais</a>
+    {% for event in events %}
+        <div class="row justify-content-evenly" style="margin-top: 0.5rem;">
+            <div class="col-6 card mx-4" style="width: 22rem; height: 25rem;">
+                <img src="{{ event.image.url }}" class="card-img-top img-card" alt="logo do evento">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.name }}</h5>
+                    <p class="card-text">{{ event.description }}</p>
+                    <div class="text-center">
+                        <a href="#" class="btn btn-dark">Ver mais</a>
+                    </div>
                 </div>
             </div>
         </div>
-        {% endfor %}
-    </div>
+    {% empty %}
+        <div class="col-12 text-center"style="align-self: center;">
+            <h1>Não há eventos cadastrados</h1>
+        </div>
+    {% endfor %}
 {% endblock content %}

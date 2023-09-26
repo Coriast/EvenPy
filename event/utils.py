@@ -1,4 +1,5 @@
-from event.models import User
+# from event.models import CustomUser
+from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 
 def validate_user(username: str, password: str) -> tuple:

@@ -3,9 +3,9 @@ from .models import *
 
 admin.site.register(Participant)
 
-admin.site.register(Instructor)
+admin.site.register(Creator)
 
-admin.site.register(Organizer)
+admin.site.register(Conductor)
 
 admin.site.register(Location)
 
