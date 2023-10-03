@@ -31,11 +31,11 @@
             <div 
                class="collapse" 
                id="collapseEvents"
-               style="margin-left: 1.5rem;"
+               style="margin-left: 1rem;"
             >
                <li 
-                  class="nav-item" 
-                  onclick="window.location.href='{% url "event" %}'">
+                  class="nav-item btn" 
+                  onclick="window.location.href='{% url "events" %}'">
                   <a class="nav-link text-white">
                      <i class="fa-regular fa-calendar-days" style="color: #9c142b;"></i>
                      <span class="nav-link-text ms-1 font-menu">
@@ -44,7 +44,7 @@
                   </a>
                </li>
                <li 
-                  class="nav-item mt-3" 
+                  class="nav-item mt-3 btn" 
                   onclick="window.location.href='{% url "register_event" %}'"
                >
                   <a class="nav-link text-white">

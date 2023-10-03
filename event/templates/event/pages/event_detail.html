@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center mb-5" style="font-weight: bold; color: #a0162d;">Detalhes do Evento</h1>
+            <figure class="text-center">
+                <img class="img-md" src="{{ event.image.url }}" alt="logo do evento">
+            </figure>
+        </div>
+
+        <div class="container-custom">
+            <div class="offset-2 col-5 mt-4">
+                <h3 class="text-start" style="font-weight: bold; color: #a0162d;">Nome do Evento</h3>
+                <p class="text-center ms-3">{{ event.name }}</p>
+            </div>
+            <div class="offset-2 col-5 mt-4">
+                <h3 class="text-start" style="font-weight: bold; color: #a0162d;">Descrição</h3>
+                <p class="text-center ms-3">{{ event.description }}</p>
+            </div>
+            <div class="offset-2 col-5 mt-4">
+                <h3 class="text-start" style="font-weight: bold; color: #a0162d;">Status</h3>
+                <p 
+                class="text-center ms-3"
+                >
+                    {% if event.closed %}
+                        <span class="badge bg-danger">Fechado</span>
+                    {% else %}
+                        <span class="badge bg-success">Aberto</span>
+                    {% endif %}
+            </div>
+
+            <div class="row mt-4">
+                <div class="offset-2 col-5">
+                    <h3 class="text-start" style="font-weight: bold; color: #a0162d;">Data inicial</h3>
+                    <p class="text-center ms-3">{{ event.start_date }}</p>
+                </div>
+                <div class="col-auto">
+                    <h3 class="text-start" style="font-weight: bold; color: #a0162d;">Data inicial</h3>
+                    <p class="text-center ms-3">{{ event.end_date }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a class="btn btn-danger" href="{% url 'events' %}" style="width: 8rem;">
+                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                voltar
+            </a>
+        </div>
+    </div>
+{% endblock content %}

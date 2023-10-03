@@ -19,7 +19,7 @@ class RegisterConductorView(View):
             password = request.POST.get("password")
             confirm_password = request.POST.get("confirm_password")
             email = request.POST.get("email")
-            
+
             if not username or not password or not email:
                 messages.error(request, "Por favor, preencha todos os campos!")
                 return redirect("register_conductor")
@@ -27,17 +27,17 @@ class RegisterConductorView(View):
             if not (password == confirm_password):
                 messages.error(request, "As senhas não coincidem!")
                 return redirect("register_conductor")
-            
+
             conductor: bool = Conductor.objects.filter(username=username).exists()
-            
+
             if not conductor:
                 user = Conductor(username=username, password=password, email=email)
                 user.save()
-                
+
                 messages.success(request, "Conductor cadastrado com sucesso!")
             else:
                 messages.error(request, "Conductor já cadastrado!")
-            
+
             return redirect("register_conductor")
         except Exception as e:
             return print(e)
@@ -59,7 +59,7 @@ class RegisterEventView(View):
             image = request.FILES.get("image")
             conductor_id = request.POST.get("conductor")
 
-            conductor = Conductor.objects.get(id=conductor_id)
+            # conductor = Conductor.objects.get(id=conductor_id)
 
             if (
                 not name
@@ -77,11 +77,11 @@ class RegisterEventView(View):
                 start_date=start_date,
                 end_date=end_date,
                 image=image,
-                conductor=conductor,
+                # conductor=conductor,
             )
             event.save()
             messages.success(request, "Evento cadastrado com sucesso!")
-            return redirect("event")
+            return redirect("events")
         except Exception as e:
             return print(e)
 
@@ -93,6 +93,15 @@ class EventView(View):
         events = Event.objects.all()
 
         context = {"events": events}
+        return render(request, self.template_name, context)
+
+
+class EventDetailView(View):
+    template_name = "event/pages/event_detail.html"
+
+    def get(self, request, pk):
+        event = Event.objects.get(pk=pk)
+        context = {"event": event}
         return render(request, self.template_name, context)
 
 

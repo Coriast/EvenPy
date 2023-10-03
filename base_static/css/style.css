@@ -1,4 +1,4 @@
-:root{
+:root {
     --side-nav-color: #000000c9;
 }
 
@@ -13,17 +13,17 @@
     margin-bottom: 1rem;
 }
 
-
-
 .logo-menu {
     width: 100%;
     height: 6rem;
 }
+
 .font-menu {
     font-size: 1.5rem;
     font-weight: 600;
     color: #fff;
 }
+
 .font-home {
     margin-top: 10rem;
     font-size: 5rem;
@@ -36,6 +36,10 @@
     position: fixed;
     margin-left: 44rem;
     margin-top: 1rem;
+}
+
+.img-md {
+    width: 20%;
 }
 
 .img-card {
@@ -54,10 +58,15 @@
     text-align: center;
 }
 
+.container-custom {
+    margin-top: 2rem;
+}
+
 @media screen and (min-width: 2000px) {
     .logo-menu {
         height: 8rem;
     }
+
     .font-menu {
         font-size: 2.25rem;
     }
