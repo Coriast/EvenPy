@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
-from event.utils import validate_user
+from event.utils import validate_user, ParticipantFactory, EventFactory, ConductorFactory
 from event.models import Event, Conductor, Participant
 from event.form import EventForm, ConductorForm
 from django.views import View
@@ -31,8 +31,8 @@ class RegisterConductorView(View):
             conductor: bool = Conductor.objects.filter(username=username).exists()
 
             if not conductor:
-                user = Conductor(username=username, password=password, email=email)
-                user.save()
+                factory = ConductorFactory()
+                factory.criar_objeto(username=username, password=password, email=email)
 
                 messages.success(request, "Conductor cadastrado com sucesso!")
             else:
@@ -59,7 +59,7 @@ class RegisterEventView(View):
             image = request.FILES.get("image")
             conductor_id = request.POST.get("conductor")
 
-            # conductor = Conductor.objects.get(id=conductor_id)
+            conductor = Conductor.objects.get(id=conductor_id)
 
             if (
                 not name
@@ -71,15 +71,15 @@ class RegisterEventView(View):
                 messages.error(request, "Por favor, preencha todos os campos!")
                 return redirect("register_event")
 
-            event = Event(
+            factory = EventFactory()
+            factory.criar_objeto(
                 name=name,
                 description=description,
                 start_date=start_date,
                 end_date=end_date,
                 image=image,
-                # conductor=conductor,
+                conductor=conductor,
             )
-            event.save()
             messages.success(request, "Evento cadastrado com sucesso!")
             return redirect("events")
         except Exception as e:
@@ -164,8 +164,8 @@ class RegisterView(View):
                 messages.error(request, "As senhas não coincidem!")
                 return redirect("register")
 
-            user = Participant(username=username, password=password, email=email)
-            user.save()
+            factory = ParticipantFactory()
+            factory.criar_objeto(username=username, password=password, email=email)
 
             messages.success(request, "Usuário cadastrado com sucesso!")
             return redirect("login")

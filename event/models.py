@@ -2,23 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
-# from event.manager import CustomUserManager
-
-
-# class User(AbstractUser):
-#     username = models.CharField(max_length=100, unique=True)
-#     email = models.EmailField(_("email address"), unique=True)
-#     password = models.CharField(max_length=100)
-
-#     USERNAME_FIELD = "username"
-#     REQUIRED_FIELDS = []
-
-#     objects = CustomUserManager()
-
-#     class Meta:
-#         verbose_name = _("user")
-#         verbose_name_plural = _("users")
-
 
 class Creator(User):
     class Meta:
