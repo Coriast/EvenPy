@@ -39,7 +39,7 @@ class ParticipantFactory(ObjctFactory):
 
         res = check_user_fields(username, password, email, confirm_password)
 
-        if not res[0]:
+        if res[0]:
             user = Participant(username=username, password=password, email=email)
             user.save()
             return res[0], res[1], user
@@ -63,7 +63,7 @@ class ConductorFactory(ObjctFactory):
 
         res = check_user_fields(username, password, email, confirm_password)
 
-        if not res[0]:
+        if res[0]:
             user = Conductor(username=username, password=password, email=email)
             user.save()
             return res[0], res[1], user
