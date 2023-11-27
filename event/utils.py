@@ -19,7 +19,14 @@ def validate_user(username: str, password: str) -> tuple:
     except Exception:
         return False, "Usuário ou senha não conferem, tente novamente"
 
+def check_user_fields(username: str, password: str, email: str, confirm_password: str):
+    if not username or not password or not email:
+        return False, "Por favor, preencha todos os campos!"
 
+    if not (password == confirm_password):
+        return False, "As senhas não coincidem!"
+    
+    return True, "Usuário cadastrado com sucesso!"
 
 class ObjctFactory(ABC):
     @abstractmethod
@@ -28,10 +35,16 @@ class ObjctFactory(ABC):
 
 
 class ParticipantFactory(ObjctFactory):
-    def criar_objeto(self, username: str, password: str, email: str):
-        user = Participant(username=username, password=password, email=email)
-        user.save()
-        return user
+    def criar_objeto(self, username: str, password: str, email: str, confirm_password: str):
+
+        res = check_user_fields(username, password, email, confirm_password)
+
+        if not res[0]:
+            user = Participant(username=username, password=password, email=email)
+            user.save()
+            return res[0], res[1], user
+        else:
+            return res[0], res[1], None
     
 class CreatorFactory(ObjctFactory):
     def criar_objeto(self, username: str, password: str, email: str):
@@ -46,7 +59,14 @@ class EventFactory(ObjctFactory):
         return event
     
 class ConductorFactory(ObjctFactory):
-    def criar_objeto(self, username: str, password: str, email: str):
-        user = Conductor(username=username, password=password, email=email)
-        user.save()
-        return user
+    def criar_objeto(self, username: str, password: str, email: str, confirm_password: str):
+
+        res = check_user_fields(username, password, email, confirm_password)
+
+        if not res[0]:
+            user = Conductor(username=username, password=password, email=email)
+            user.save()
+            return res[0], res[1], user
+        else:
+            return res[0], res[1], None
+

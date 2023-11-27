@@ -19,20 +19,21 @@ class RegisterConductorView(View):
             password = request.POST.get("password")
             confirm_password = request.POST.get("confirm_password")
             email = request.POST.get("email")
-
-            if not username or not password or not email:
-                messages.error(request, "Por favor, preencha todos os campos!")
-                return redirect("register_conductor")
-
-            if not (password == confirm_password):
-                messages.error(request, "As senhas não coincidem!")
-                return redirect("register_conductor")
-
+            
             conductor: bool = Conductor.objects.filter(username=username).exists()
-
+            
             if not conductor:
                 factory = ConductorFactory()
-                factory.criar_objeto(username=username, password=password, email=email)
+                result = factory.criar_objeto(
+                    username=username,
+                    password=password,
+                    email=email,
+                    confirm_password=confirm_password
+                    )
+                
+                if not result[0]:
+                    messages.error(request, result[1])
+                    return redirect("register_conductor")
 
                 messages.success(request, "Conductor cadastrado com sucesso!")
             else:
@@ -156,18 +157,20 @@ class RegisterView(View):
             confirm_password = request.POST.get("confirm_password")
             email = request.POST.get("email")
 
-            if not username or not password or not email:
-                messages.error(request, "Por favor, preencha todos os campos!")
-                return redirect("register")
-
-            if not (password == confirm_password):
-                messages.error(request, "As senhas não coincidem!")
-                return redirect("register")
-
             factory = ParticipantFactory()
-            factory.criar_objeto(username=username, password=password, email=email)
-
-            messages.success(request, "Usuário cadastrado com sucesso!")
+            result = factory.criar_objeto(
+                username=username,
+                password=password,
+                email=email, 
+                confirm_password=confirm_password
+                )
+            
+            if not result[0]:
+                messages.error(request, result[1])
+                return redirect("register")
+            
+            messages.success(request, result[1])
             return redirect("login")
+
         except Exception as e:
             return print(e)
